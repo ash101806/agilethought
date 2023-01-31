@@ -1,0 +1,12 @@
+package com.agilethought.springboot;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AcountApp {
+	public static void main(String[] args) {
+		SpringApplication.run(AcountApp.class, args);
+	}
+
+}
