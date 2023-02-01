@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "agilethought.config.curency.national",
+    "type": "java.lang.String",
+    "description": "Currency code where application was working (example: USD)"
+  },
+  {
+    "name": "agilethought.config.account.prefix",
+    "type": "java.lang.String",
+    "description": "Prefix for accounts that should be created from this deployment (usually bank registered code)"
+  }
+]}

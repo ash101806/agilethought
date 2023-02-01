@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class AddAccountRequestVO {
 	
 	private Long clientId;
-	private String accounTypeCode;
+	private String accountTypeCode;
 	private BigDecimal initialBalance;
 	public Long getClientId() {
 		return clientId;
@@ -13,11 +13,11 @@ public class AddAccountRequestVO {
 	public void setClientId(Long clientId) {
 		this.clientId = clientId;
 	}
-	public String getAccounTypeCode() {
-		return accounTypeCode;
+	public String getAccountTypeCode() {
+		return accountTypeCode;
 	}
-	public void setAccounTypeCode(String accounTypeCode) {
-		this.accounTypeCode = accounTypeCode;
+	public void setAccountTypeCode(String accountTypeCode) {
+		this.accountTypeCode = accountTypeCode;
 	}
 	public BigDecimal getInitialBalance() {
 		return initialBalance;

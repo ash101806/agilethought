@@ -26,7 +26,9 @@ public class Account {
 	@Column(name = "CONTRACT_NUMBER")
 	private String contract;
 	@Column(name = "PERSON_ID")
-	private Long PersonId;
+	private Long personId;
+	@Column(name = "MAIN_PRODUCT_ID")
+	private Long mainProductId;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PERSON_ID", insertable = false, updatable = false)
 	private Person person;
@@ -35,19 +37,6 @@ public class Account {
 	private Product mainProduct;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Product> products;
-	
-	public Long getPersonId() {
-		return PersonId;
-	}
-	public void setPersonId(Long personId) {
-		PersonId = personId;
-	}
-	public Person getPerson() {
-		return person;
-	}
-	public void setPerson(Person person) {
-		this.person = person;
-	}
 	public Long getId() {
 		return id;
 	}
@@ -65,6 +54,24 @@ public class Account {
 	}
 	public void setContract(String contract) {
 		this.contract = contract;
+	}
+	public Long getPersonId() {
+		return personId;
+	}
+	public void setPersonId(Long personId) {
+		this.personId = personId;
+	}
+	public Long getMainProductId() {
+		return mainProductId;
+	}
+	public void setMainProductId(Long mainProductId) {
+		this.mainProductId = mainProductId;
+	}
+	public Person getPerson() {
+		return person;
+	}
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 	public Product getMainProduct() {
 		return mainProduct;

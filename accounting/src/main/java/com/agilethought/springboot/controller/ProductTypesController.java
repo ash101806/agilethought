@@ -24,7 +24,7 @@ import com.agilethought.springboot.vo.response.DeleteProductTypeResponseVO;
 import com.agilethought.springboot.vo.response.UpdateProductTypeResponseVO;
 
 @RestController
-@RequestMapping("/api/account-types")
+@RequestMapping("/api/product-types")
 public class ProductTypesController {
 	@Autowired
 	private ProductTypeService accountTypeService;
