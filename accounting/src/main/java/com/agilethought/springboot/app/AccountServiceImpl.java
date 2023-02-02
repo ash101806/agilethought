@@ -3,6 +3,7 @@ package com.agilethought.springboot.app;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import com.agilethought.springboot.dao.ProductRepository;
 import com.agilethought.springboot.dao.ProductType;
 import com.agilethought.springboot.dao.ProductTypeRepository;
 import com.agilethought.springboot.error.BusinessException;
+import com.agilethought.springboot.vo.ClientInformationDTO;
 import com.agilethought.springboot.vo.ProductVO;
 import com.agilethought.springboot.vo.request.AddAccountRequestVO;
 import com.agilethought.springboot.vo.response.AddAccountResponseVO;
@@ -97,12 +99,22 @@ public class AccountServiceImpl implements AccountService{
 		response.setMainProductId(account.getMainProductId());
 		response.setMainProductType(account.getMainProduct().getProductType().getCode());
 		List<ProductVO> products = account.getProducts().stream().map(product -> {
-			ProductVO prt = new ProductVO();
-			BeanUtils.copyProperties(product, prt);
-			prt.setType(product.getProductType().getCode());
-			return prt;
-		}).collect(Collectors.toList());
-		response.setProducts(products);
+					ProductVO prt = new ProductVO();
+					BeanUtils.copyProperties(product, prt);
+					prt.setType(product.getProductType().getCode());
+					prt.setCurrency(product.getProductType().getCurrency());
+					return prt;
+				}).collect(Collectors.toList());
+		
+		response.setProducts(products.stream().filter(product -> product.getCurrency().equals(nationalCurrency))
+				.collect(Collectors.toList()));
+		response.setInternationalProducts(products.stream().filter(product -> !product.getCurrency().equals(nationalCurrency))
+				.collect(Collectors.toList()));
+		ClientInformationDTO clientInfo = new ClientInformationDTO();
+		clientInfo.setName(Arrays.stream(account.getPerson().getName().split(" ")).map(name -> name.replaceAll("(?<=.{1}).", "*"))//Hide PSI for OWASP directions
+				.collect(Collectors.joining(" ")));
+		clientInfo.setAdress(account.getPerson().getAddress());
+		response.setClient(clientInfo);
 		return response;
 	}
 }

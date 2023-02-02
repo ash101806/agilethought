@@ -2,13 +2,21 @@ package com.agilethought.springboot.vo.request;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
 /**
  * Values Class for add product to an account
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  */
 public class AddProductRequestVO {
+	@NotEmpty
+	@Pattern(regexp = "^[0-9]{11}$", message = "{validations.accounts.number.invalid}")
 	private String accountNumber;
+	@NotEmpty
 	private String productTypeCode;
+	@DecimalMin(value = "0.0")
 	private BigDecimal initialBalance;
 	private Long clientId;
 	

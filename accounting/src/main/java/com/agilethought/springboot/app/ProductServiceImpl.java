@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 		Account account = accountRepo.findByAccountNumber(request.getAccountNumber())
 				.orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, "Can't fin the specified account"));
 		
-		if(account.getPersonId().equals(request.getClientId()))
+		if(!account.getPersonId().equals(request.getClientId()))
 			throw new BusinessException(HttpStatus.FORBIDDEN, "The provided client id doesn't match with the account");
 		
 		ProductType productType = productTypeRepo.findByCode(request.getProductTypeCode()).orElseThrow(

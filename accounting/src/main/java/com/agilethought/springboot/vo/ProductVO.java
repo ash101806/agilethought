@@ -8,7 +8,15 @@ import java.math.BigDecimal;
 public class ProductVO {
 	private Long id;
 	private String type;
+	private String currency;
 	private BigDecimal balance;
+	
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
 	public Long getId() {
 		return id;
 	}

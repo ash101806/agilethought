@@ -16,17 +16,20 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.agilethought.springboot.dao.Account;
 import com.agilethought.springboot.dao.AccountRepository;
 import com.agilethought.springboot.dao.Person;
 import com.agilethought.springboot.dao.ProductType;
 import com.agilethought.springboot.dao.ProductTypeRepository;
 import com.agilethought.springboot.vo.request.AddAccountRequestVO;
+import com.agilethought.springboot.vo.request.AddProductRequestVO;
 import com.agilethought.springboot.vo.request.AddProductTypeRequestVO;
 import com.agilethought.springboot.vo.request.JwtRequest;
 import com.agilethought.springboot.vo.request.UpdateProductTypeRequestVO;
@@ -46,6 +49,8 @@ class AccountingApiApplicationTests {
 	AccountRepository acountRepository;
 	@Autowired
 	EntityManager em;
+	@Value("${agilethought.config.curency.national}")
+	private String nationalCurrency;
 	@Test
 	@Order(1)
 	public void allProductsTypes() throws JsonProcessingException, Exception {
@@ -60,19 +65,24 @@ class AccountingApiApplicationTests {
 				.andExpect(status().isOk());
 	}
 	@Test
-	@Order(2)
+	@Order(4)
 	public void addProductType() throws JsonProcessingException, Exception {
 		ObjectMapper  mapper = new  ObjectMapper();
 		AddProductTypeRequestVO request = new AddProductTypeRequestVO();
-		request.setCode("EFE");
-		request.setCurrency("MXP");
+		request.setCode("DLLEMP");
+		request.setCurrency("USD");
 		
+		mockMvc.perform(post("/api/product-types").header("Authorization", getToken())
+				.content(mapper.writeValueAsString(request)).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+		request.setCode("EFE");
+		request.setCurrency("MXN");
 		mockMvc.perform(post("/api/product-types").header("Authorization", getToken())
 				.content(mapper.writeValueAsString(request)).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 	@Test
-	@Order(4)
+	@Order(2)
 	public void updateProductType() throws JsonProcessingException, Exception {
 		ObjectMapper  mapper = new  ObjectMapper();
 		UpdateProductTypeRequestVO request = new UpdateProductTypeRequestVO();
@@ -113,6 +123,23 @@ class AccountingApiApplicationTests {
 		String accountNumber = StreamSupport.stream(acountRepository.findAll().spliterator(), false).findAny()
 				.orElseThrow(() -> new Exception("No accounts find to test")).getAccountNumber();
 		mockMvc.perform(get("/api/accounts/{accountNumber}", accountNumber).header("Authorization", getToken()))
+				.andExpect(status().isOk());
+	}
+	@Test
+	@Order(8)
+	public void addProductToAccount() throws JsonProcessingException, Exception  {
+		ObjectMapper  mapper = new  ObjectMapper();
+		Account account = StreamSupport.stream(acountRepository.findAll().spliterator(), false).findAny()
+				.orElseThrow(() -> new Exception("No accounts find to test"));
+		ProductType pt = StreamSupport.stream(productTyperepo.findAll().spliterator(), false).filter(pts->!pts.getCurrency().equals(nationalCurrency)).findAny()
+				.orElseThrow(() -> new Exception("Can't test addProductToAccount method of add Product need international Product"));
+		AddProductRequestVO request = new AddProductRequestVO();
+		request.setAccountNumber(account.getAccountNumber());
+		request.setClientId(account.getPersonId());
+		request.setProductTypeCode(pt.getCode());
+		request.setInitialBalance(BigDecimal.valueOf(895.65));
+		mockMvc.perform(post("/api/products").header("Authorization", getToken())
+				.content(mapper.writeValueAsString(request)).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 	@Test
