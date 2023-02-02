@@ -2,6 +2,11 @@ package com.agilethought.springboot.vo.response;
 
 import java.util.List;
 
+import com.agilethought.springboot.vo.ProductVO;
+/**
+ * Values class for show information of an account
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 public class FindAccountResponseVO {
 	private Long id;
 	private String accountNumber;

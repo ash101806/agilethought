@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Wed Feb 01 22:11:31 CST 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0186-1052-8c49-0000033d9a80 
-on database directory memory:C:\Users\manuel.zapien\git\agilethought\accounting\3bc83a19-af4f-4ae9-8016-718cda7d8554 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2f333739 
+Thu Feb 02 14:07:52 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0186-13be-2002-00000651bb90 
+on database directory memory:C:\Users\manuel.zapien\git\agilethought\accounting\2f77332f-f84c-41d4-9aac-33b52699c93e with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2f333739 
 Loaded from file:/C:/Users/manuel.zapien/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Eclipse Adoptium
 java.runtime.version=17.0.6+10

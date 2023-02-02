@@ -1,5 +1,8 @@
 package com.agilethought.springboot.vo.response;
-
+/**
+ * Values class for response to delete a product type
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 public class DeleteProductTypeResponseVO {
 	private Long id;
 

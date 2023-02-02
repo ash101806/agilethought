@@ -1,7 +1,10 @@
-package com.agilethought.springboot.vo.request;
+package com.agilethought.springboot.vo.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Values class for reponse to a add an account
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 public class AddAccountResponseVO {
 	private String accountNumber;
 	private Character status;

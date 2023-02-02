@@ -9,7 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
+/**
+ * Class to configure entry point to unauthorize an request
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ *
+ */
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 

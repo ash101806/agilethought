@@ -1,7 +1,10 @@
 package com.agilethought.springboot.error;
 
 import org.springframework.http.HttpStatus;
-
+/**
+ * Checked exception to manage errrors throught the Service layer (Business logic)
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 public class BusinessException extends Exception {
 
 	private static final long serialVersionUID = -3062494115949936897L;

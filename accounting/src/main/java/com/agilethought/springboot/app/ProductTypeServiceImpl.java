@@ -18,13 +18,18 @@ import com.agilethought.springboot.vo.request.UpdateProductTypeRequestVO;
 import com.agilethought.springboot.vo.response.AddProductTypeResponseVO;
 import com.agilethought.springboot.vo.response.DeleteProductTypeResponseVO;
 import com.agilethought.springboot.vo.response.UpdateProductTypeResponseVO;
-
+/**
+ * Implementation class for product type CRUD
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 @Service
 public class ProductTypeServiceImpl implements ProductTypeService {
 	
 	@Autowired
 	private ProductTypeRepository productTypeRepo;
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<ProductTypeVO> getAllAccountTypes() {
 		return StreamSupport.stream(productTypeRepo.findAll().spliterator(), false).map(type -> {
@@ -33,7 +38,9 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 			return rt;
 		}).collect(Collectors.toList());
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public AddProductTypeResponseVO addProductType(AddProductTypeRequestVO request) {
 		ProductType productType = new ProductType();
@@ -43,7 +50,9 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		BeanUtils.copyProperties(productType, response);
 		return response;
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public UpdateProductTypeResponseVO updateProductType(UpdateProductTypeRequestVO request, Long id) throws BusinessException {
 		ProductType productType = productTypeRepo.findById(id).orElseThrow(
@@ -55,7 +64,9 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		BeanUtils.copyProperties(productType, response);
 		return response;
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public DeleteProductTypeResponseVO deleteProductType(Long id) {
 		productTypeRepo.deleteById(id);
@@ -63,7 +74,9 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		response.setId(id);
 		return response;
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ProductTypeVO getAccountType(Long id) throws BusinessException{
 		ProductType productType = productTypeRepo.findById(id).orElseThrow(

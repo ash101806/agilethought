@@ -1,7 +1,10 @@
-package com.agilethought.springboot.vo.response;
+package com.agilethought.springboot.vo;
 
 import java.math.BigDecimal;
-
+/**
+ * Values class for a product information
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 public class ProductVO {
 	private Long id;
 	private String type;

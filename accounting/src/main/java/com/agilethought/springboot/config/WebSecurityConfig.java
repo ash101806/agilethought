@@ -17,11 +17,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.agilethought.springboot.security.JwtAuthenticationEntryPoint;
 import com.agilethought.springboot.security.JwtRequestFilter;
-
+/**
+ * Class for WebSecurityConfir, used to register JWT filter
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ *
+ */
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -34,9 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtRequestFilter jwtRequestFilter;
 
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		// configure AuthenticationManager so that it knows from where to load
-		// user for matching credentials
-		// Use BCryptPasswordEncoder
 		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
 	}
 
@@ -53,14 +54,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		// We don't need CSRF for this example
+		// We don't need CSRF for now
 		httpSecurity.csrf().disable()
-				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/authenticate").permitAll().
-				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
-				// make sure we use stateless session; session won't be used to
-				// store user's state.
 				exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

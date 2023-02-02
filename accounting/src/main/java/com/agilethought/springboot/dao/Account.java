@@ -13,8 +13,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-
+import javax.persistence.Table;
+/**
+ * Entity class to manage ACCOUNT table
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ *
+ */
 @Entity
+@Table(name = "ACCOUNT")
 public class Account {
 	@Id
 	@Column(name = "ID")

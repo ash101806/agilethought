@@ -19,7 +19,10 @@ import com.agilethought.springboot.app.UserDetailsServiceImpl;
 import com.agilethought.springboot.utils.JwtUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
-
+/**
+ * Class to implement an Filter to check the JWT token before process the request
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 

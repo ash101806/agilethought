@@ -7,7 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
+/**
+ * Entity class to manage PRODUCT_TYPE table
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ *
+ */
 @Entity
 @Table(name =  "PRODUCT_TYPE")
 public class ProductType {

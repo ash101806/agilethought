@@ -1,7 +1,14 @@
 package com.agilethought.springboot.vo.request;
 
+import javax.validation.constraints.NotEmpty;
+/**
+ * Values class for  generate a JWT
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 public class JwtRequest {
+	@NotEmpty(message = "{validations.login.username}")
 	private String username;
+	@NotEmpty(message = "{validations.login.password}")
 	private String password;
 	
 	public JwtRequest()

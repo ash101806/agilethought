@@ -1,5 +1,8 @@
 package com.agilethought.springboot.vo.response;
-
+/**
+ * Values class for response to a add a product type
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 public class AddProductTypeResponseVO {
 	private Long id;
 	private String code;

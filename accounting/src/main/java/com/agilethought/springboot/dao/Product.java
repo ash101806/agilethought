@@ -13,7 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
+/**
+ * Entity class to manage PRODUCT table
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ *
+ */
 @Entity
 @Table(name = "PRODUCT")
 public class Product {

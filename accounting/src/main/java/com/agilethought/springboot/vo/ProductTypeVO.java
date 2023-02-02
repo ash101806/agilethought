@@ -1,5 +1,8 @@
 package com.agilethought.springboot.vo;
-
+/**
+ * Values class for a Product Type
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 public class ProductTypeVO {
 	private Long id;
 	private String code;

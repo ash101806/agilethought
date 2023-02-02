@@ -24,10 +24,14 @@ import com.agilethought.springboot.dao.ProductRepository;
 import com.agilethought.springboot.dao.ProductType;
 import com.agilethought.springboot.dao.ProductTypeRepository;
 import com.agilethought.springboot.error.BusinessException;
-import com.agilethought.springboot.vo.request.AddAccountResponseVO;
-import com.agilethought.springboot.vo.response.AddAccountRequestVO;
+import com.agilethought.springboot.vo.ProductVO;
+import com.agilethought.springboot.vo.request.AddAccountRequestVO;
+import com.agilethought.springboot.vo.response.AddAccountResponseVO;
 import com.agilethought.springboot.vo.response.FindAccountResponseVO;
-import com.agilethought.springboot.vo.response.ProductVO;
+/**
+ * Implementation of service layer for accountService
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 @Service
 public class AccountServiceImpl implements AccountService{
 	private static final Character ACTIVE_STATUS = 'A';
@@ -44,6 +48,9 @@ public class AccountServiceImpl implements AccountService{
 	private String nationalCurrency;
 	@Value("${agilethought.config.account.prefix}")
 	private String prefix;
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public AddAccountResponseVO addAccount(AddAccountRequestVO request) throws BusinessException, NoSuchAlgorithmException {
@@ -76,6 +83,9 @@ public class AccountServiceImpl implements AccountService{
 		response.setContractUUID(account.getContract());
 		return response;
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public FindAccountResponseVO findAccount(String accountNumber) throws BusinessException {
 		Account account = accountrepository.findByAccountNumber(accountNumber)
