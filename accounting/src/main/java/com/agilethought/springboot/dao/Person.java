@@ -28,19 +28,6 @@ public class Person {
 	private String identificationNumber;
 	@Column(name = "ONBORADING_COMPLETE")
 	private Boolean onBoardingComplete;
-	
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public Boolean getOnBoardingComplete() {
-		return onBoardingComplete;
-	}
-	public void setOnBoardingComplete(Boolean onBoardingComplete) {
-		this.onBoardingComplete = onBoardingComplete;
-	}
 	public Long getPersonId() {
 		return personId;
 	}
@@ -53,11 +40,11 @@ public class Person {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getAdress() {
+	public String getAddress() {
 		return address;
 	}
-	public void setAdress(String adress) {
-		this.address = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getIdentificationNumber() {
 		return identificationNumber;
@@ -65,5 +52,10 @@ public class Person {
 	public void setIdentificationNumber(String identificationNumber) {
 		this.identificationNumber = identificationNumber;
 	}
-	
+	public Boolean getOnBoardingComplete() {
+		return onBoardingComplete;
+	}
+	public void setOnBoardingComplete(Boolean onBoardingComplete) {
+		this.onBoardingComplete = onBoardingComplete;
+	}
 }
