@@ -1,0 +1,4 @@
+CREATE TABLE TRANSACTION_RISK(
+ID varchar(36) not null,
+AMOUNT DECIMAL(12,4)
+);

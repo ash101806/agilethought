@@ -9,14 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TRANSACTIONS")
+@Table(name = "TRANSACTION")
 public class Transaction {
 	@Id
-	@Column(name = "ID")
-	private Long id;
-	@Column(name = "ACCOUNT_ID", length = 36)
+	@Column(name = "ID", length = 36)
+	private String id;
+	@Column(name = "ACCOUNT_ID", length = 17)
 	private String accountId;
-	@Column(name = "AMOUNT", precision = 2)
+	@Column(name = "AMOUNT", precision = 12,scale =4 )
 	private BigDecimal amount;
 	@Column(name = "CURRENCY_CODE", length = 3)
 	private String currencyCode;
@@ -26,29 +26,29 @@ public class Transaction {
 	private Character scenario;
 	@Column(name = "TYPE")
 	private Character type;
-	@Column(name = "IP_ADRESS")
+	@Column(name = "IP_ADDRESS")
 	private String ipAddress;
 	@Column(name = "IP_STATE", length = 40)
 	private String ipState;
-	@Column(name = "IP_POSTAL_CODE", length = 7)
+	@Column(name = "IP_POSTAL_CODE", length = 13)
 	private String ipPostalCode;
 	@Column(name = "IP_COUNTRY", length = 2)
 	private String ipCountry;
 	@Column(name = "PROXY")
 	private String isProxy;
-	@Column(name = "B_LANGUAGE", length = 5)
+	@Column(name = "B_LANGUAGE", length = 10)
 	private String browserLanguage;
 	@Column(name = "P_INTRUMENT_TYPE", length = 16)
 	private String paymentInstrumentType;
 	@Column(name = "CARD_TYPE", length = 8)
 	private String cardType;
-	@Column(name = "P_BILLING_ZIP", length = 7)
+	@Column(name = "P_BILLING_ZIP", length = 13)
 	private String paymentBillingPostalCode;
 	@Column(name = "P_BILLING_STATE", length = 40)
 	private String paymentBillingState;
 	@Column(name = "P_BILLING_COUNTRY_CODE", length = 2)
 	private String paymentBillingCountryCode;
-	@Column(name = "SHIPPING_ZIP", length = 7)
+	@Column(name = "SHIPPING_ZIP", length = 13)
 	private String shippingPostalCode;
 	@Column(name = "SHIPPING_STATE", length = 40)
 	private String shippingState;
@@ -60,12 +60,12 @@ public class Transaction {
 	private Integer digitalItemCount;
 	@Column(name = "PHYSICAL_ITEM_COUNT")
 	private Integer physicalItemCount;
-	@Column(name = "TRANSACTION_DATETIME")
-	private LocalDateTime transactionDateTime;
-	public Long getId() {
+	@Column(name = "TRANSACTION_DATETIME", length = 25)
+	private String transactionDateTime;
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getAccountId() {
@@ -206,10 +206,10 @@ public class Transaction {
 	public void setPhysicalItemCount(Integer physicalItemCount) {
 		this.physicalItemCount = physicalItemCount;
 	}
-	public LocalDateTime getTransactionDateTime() {
+	public String getTransactionDateTime() {
 		return transactionDateTime;
 	}
-	public void setTransactionDateTime(LocalDateTime transactionDateTime) {
+	public void setTransactionDateTime(String transactionDateTime) {
 		this.transactionDateTime = transactionDateTime;
 	} 
 }

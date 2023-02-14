@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "agilethought.pld.params.max-amount",
+  "type": "java.lang.String",
+  "description": "Limit amount to not be cheked as ML"
+}]}

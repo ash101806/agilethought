@@ -9,6 +9,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +21,9 @@ public class JobTask {
 	private JobLauncher jobLauncher;
 
 	@Autowired
+	@Qualifier("initialSeedJob")
 	private Job job;
 
-	@Scheduled(fixedRate = 10000000)
 	public void executeJob() throws Exception {
 		LOG.info("Inicio: " + new Date());
 		JobParameters jobParameters = new JobParametersBuilder()
