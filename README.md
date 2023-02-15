@@ -32,7 +32,7 @@ Solution in Spring Boot + Spring Batch
 ## REST API
 1. Could be found in controllers folder
 There 2 enpoint to query results:
-   * /api/transactions/risk-results-ip for query risk operations gruoped by ip
+   * /api/transactions/risk-results-ip for query risk operations grouped by ip
    * /api/transactions/mx for query risk operations gruoped by transactions
 ## JOBS
 Could be found in BatchConfiguration class, there are 2 JOB definition
@@ -40,6 +40,10 @@ Could be found in BatchConfiguration class, there are 2 JOB definition
    * accounts-fixed.csv (500,000 rows)
    * transactions.csv (600,000 rows)
 * analyzeTransactionsJob JOB Created for analyze for transactions to Money Laundering Suspicious Detection
+## Readers
+2 types of readers has been used, JPAPagedReader and FlatFile (Csv) Reader, you can see at BatchConfiguration class 
+## Multi-threading
+In order to get the best perfoance an Task executor of 20 threads has been configured for analyze trasactions (Steps with 1000 rows readers limit)
 ## JOBS Listener
 Created in class JobListenerPML in order to inform a resume by WhatsApp.
 # Pentaho ETL

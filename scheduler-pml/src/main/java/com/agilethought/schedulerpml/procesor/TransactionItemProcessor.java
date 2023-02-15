@@ -19,11 +19,9 @@ public class TransactionItemProcessor implements ItemProcessor<Transaction, Tran
 	private List<String> blackCountries = Arrays.asList("KR","AF", "CY");
 	@Override
 	public Transaction process(Transaction transaction) throws Exception {
-		if(transaction.getAmount().compareTo(maxAmount) <=0)
-			return null;
-		if(!blackCountries.contains(transaction.getIpCountry().toUpperCase()))
-			return null;
-		return transaction;
+		if(transaction.getAmount().compareTo(maxAmount) == 1 || blackCountries.contains(transaction.getIpCountry().toUpperCase()))
+			return transaction;
+		return null;
 	}
 
 }
