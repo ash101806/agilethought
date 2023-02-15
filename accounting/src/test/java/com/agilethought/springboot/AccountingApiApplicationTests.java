@@ -51,6 +51,8 @@ class AccountingApiApplicationTests {
 	EntityManager em;
 	@Value("${agilethought.config.curency.national}")
 	private String nationalCurrency;
+	@Value("${agilethought.config.account.prefix}")
+	private String prefix;
 	@Test
 	@Order(1)
 	public void allProductsTypes() throws JsonProcessingException, Exception {
@@ -143,9 +145,70 @@ class AccountingApiApplicationTests {
 				.andExpect(status().isOk());
 	}
 	@Test
+	@Order(9)
 	void contextLoads() {
 	}
-	
+	@Test
+	@Order(10)
+	public void getTokenValidations() throws JsonProcessingException, Exception {
+		JwtRequest request = new JwtRequest();
+		request.setPassword("password");
+		request.setUsername("agile");
+		ObjectMapper  mapper = new  ObjectMapper();
+		mockMvc.perform(post("/authenticate").content(mapper.writeValueAsString(request))
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().is5xxServerError());
+		
+	}
+	@Test
+	@Order(11)
+	public void addAccountValidations() throws JsonProcessingException, Exception  {
+		ObjectMapper  mapper = new  ObjectMapper();
+		ProductType pt = StreamSupport.stream(productTyperepo.findAll().spliterator(), false).findAny()
+				.orElseThrow(() -> new Exception("Can't test update method of productType"));
+		
+		Person client = em.createQuery("from Person where onBoardingComplete = true", Person.class).getSingleResult();
+		AddAccountRequestVO request = new AddAccountRequestVO();
+		request.setAccountTypeCode(pt.getCode()+ "A");
+		request.setClientId(client.getPersonId());
+		request.setInitialBalance(BigDecimal.valueOf(115.50));
+		mockMvc.perform(post("/api/accounts").header("Authorization", getToken())
+				.content(mapper.writeValueAsString(request)).contentType(MediaType.APPLICATION_JSON)).andExpect(status().is4xxClientError());
+		request.setAccountTypeCode(null);
+		mockMvc.perform(post("/api/accounts").header("Authorization", getToken())
+				.content(mapper.writeValueAsString(request)).contentType(MediaType.APPLICATION_JSON)).andExpect(status().is4xxClientError());
+	}
+	@Test
+	@Order(12)
+	public void findAccountByNumberValidations() throws JsonProcessingException, Exception  {
+		String accountNumber = StreamSupport.stream(acountRepository.findAll().spliterator(), false).findAny()
+				.orElseThrow(() -> new Exception("No accounts find to test")).getAccountNumber();
+		mockMvc.perform(get("/api/accounts/{accountNumber}", accountNumber + "12").header("Authorization", getToken()))
+				.andExpect(status().is4xxClientError());
+		mockMvc.perform(get("/api/accounts/{accountNumber}", accountNumber.replace(prefix, "99999")).header("Authorization", getToken()))
+		.andExpect(status().is4xxClientError());
+	}
+	@Test
+	@Order(13)
+	public void addProductToAccountValitadions() throws JsonProcessingException, Exception  {
+		ObjectMapper  mapper = new  ObjectMapper();
+		Account account = StreamSupport.stream(acountRepository.findAll().spliterator(), false).findAny()
+				.orElseThrow(() -> new Exception("No accounts find to test"));
+		ProductType pt = StreamSupport.stream(productTyperepo.findAll().spliterator(), false).filter(pts->!pts.getCurrency().equals(nationalCurrency)).findAny()
+				.orElseThrow(() -> new Exception("Can't test addProductToAccount method of add Product need international Product"));
+		AddProductRequestVO request = new AddProductRequestVO();
+		request.setAccountNumber(account.getAccountNumber());
+		request.setClientId(account.getPersonId());
+		request.setProductTypeCode(pt.getCode() + "A");
+		request.setInitialBalance(BigDecimal.valueOf(895.65));
+		mockMvc.perform(post("/api/products").header("Authorization", getToken())
+				.content(mapper.writeValueAsString(request)).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is4xxClientError());
+		
+		request.setClientId(account.getPersonId() + 1);
+		mockMvc.perform(post("/api/products").header("Authorization", getToken())
+				.content(mapper.writeValueAsString(request)).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is4xxClientError());
+	}
 	public String getToken() throws JsonProcessingException, Exception {
 		JwtRequest request = new JwtRequest();
 		request.setPassword("password");

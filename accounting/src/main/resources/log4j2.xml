@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration
+    xmlns="http://logging.apache.org/log4j/2.0/config">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{dd/MM/yyyy HH:mm:ss.SSS} %-5p [%t][%c{1}]    
+        %m%n
+    </Property>
+    <Property name="APP_LOG_ROOT">/logs</Property>
+</Properties>
+<Appenders>
+    <!-- Console Appender -->
+    <Console name="STDOUT" target="SYSTEM_OUT">
+        <PatternLayout pattern="${LOG_PATTERN}" />
+    </Console>
+    <RollingFile name="MyFileAppender"
+        fileName="${APP_LOG_ROOT}/application.log"
+        filePattern="${APP_LOG_ROOT}/application-%d{yyyy-MM-dd}-%i.log">
+        <PatternLayout pattern="${LOG_PATTERN}" />
+        <Policies>
+            <SizeBasedTriggeringPolicy size="50 MB" />
+        </Policies>
+        <DefaultRolloverStrategy max="100" />
+    </RollingFile>
+</Appenders>
+<Loggers>
+    <Root level="INFO">
+<!--         <AppenderRef ref="STDOUT" /> -->
+        <AppenderRef ref="MyFileAppender" />
+    </Root>
+</Loggers>
+</Configuration>

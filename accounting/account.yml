@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounting
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: accounting
+  template:
+    metadata:
+      labels:
+        app: accounting
+    spec:
+      containers:
+        - name: accounting
+          image: agile-practice-java
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Never
+      restartPolicy: Always
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounting
+spec:
+  selector:
+    app: accounting
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: LoadBalancer
