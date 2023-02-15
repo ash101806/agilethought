@@ -44,3 +44,4 @@ Could be found in BatchConfiguration class, there are 2 JOB definition
 Created in class JobListenerPML in order to inform a resume by WhatsApp.
 # Pentaho ETL
 Simple ETL to consume /api/transactions/mx in order to generate a CSV with all data recivied. Variables could be setted in order to configure URL y file PATH
+
