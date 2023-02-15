@@ -48,3 +48,4 @@ In order to get the best perfoance an Task executor of 20 threads has been confi
 Created in class JobListenerPML in order to inform a resume by WhatsApp.
 # Pentaho ETL
 Simple ETL to consume /api/transactions/mx in order to generate a CSV with all data recivied. Variables could be setted in order to configure URL y file PATH
+
