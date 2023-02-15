@@ -32,7 +32,10 @@ import com.agilethought.schedulerpml.dao.Account;
 import com.agilethought.schedulerpml.dao.Transaction;
 import com.agilethought.schedulerpml.listener.JobListenerPML;
 import com.agilethought.schedulerpml.procesor.TransactionItemProcessor;
-
+/**
+ * Configuration class for beans (readers, writers, procesors, steps and JOBS) and desing of solution flow
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 @Configuration
 @EnableBatchProcessing
 public class BatchConfiguration {
@@ -47,7 +50,11 @@ public class BatchConfiguration {
 	private EntityManagerFactory emf;
 	@Autowired
 	JobRepository jobrepository;
-
+	/**
+	 * Bean for asyn execution of JOBS
+	 * @return JobLaunches async
+	 * @throws Exception
+	 */
 	@Bean(name = "myJobLauncher")
 	public JobLauncher simpleJobLauncher() throws Exception {
 		SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
@@ -56,7 +63,10 @@ public class BatchConfiguration {
 		jobLauncher.afterPropertiesSet();
 		return jobLauncher;
 	}
-
+	/**
+	 * Bean of reader csv for accounts
+	 * @return
+	 */
 	@Bean("accountReader")
 	public FlatFileItemReader<Account> reader() {
 		return new FlatFileItemReaderBuilder<Account>().name("accountItemReader")
@@ -70,18 +80,27 @@ public class BatchConfiguration {
 					}
 				}).build();
 	}
-
+	/**
+	 * Bean of Transaction processor for PML
+	 * @return
+	 */
 	@Bean
 	public TransactionItemProcessor procesorTran() {
 		return new TransactionItemProcessor();
 	}
-
+	/**
+	 * Paged JPA reader for processing transactions
+	 * @return
+	 */
 	@Bean("transacitionJPAReader")
 	public JpaPagingItemReader<Transaction> readerJpaTransactions() {
 		return new JpaPagingItemReaderBuilder<Transaction>().name("transactionJPAReader").entityManagerFactory(emf)
 				.queryString("from Transaction").pageSize(1000).maxItemCount(2000).build();
 	}
-
+	/**
+	 * CSV reader for bulk all transactions into a DB
+	 * @return
+	 */
 	@Bean("fileTransactionReader")
 	public FlatFileItemReader<Transaction> FileReaderTransaction() {
 		return new FlatFileItemReaderBuilder<Transaction>().name("transactionFileReader")
@@ -98,7 +117,11 @@ public class BatchConfiguration {
 					}
 				}).build();
 	}
-
+	/**
+	 * Writer Bean for bulk transactions to DB
+	 * @param dataSource
+	 * @return
+	 */
 	@Bean("writeTransaction")
 	public JdbcBatchItemWriter<Transaction> writerTransaction(DataSource dataSource) {
 		return new JdbcBatchItemWriterBuilder<Transaction>()
@@ -107,14 +130,22 @@ public class BatchConfiguration {
 						+ "VALUES (:id, :accountId, :amount,:currencyCode,:localHour,:scenario,:type,:ipAddress,:ipState,:ipPostalCode,:ipCountry,:isProxy,:browserLanguage,:paymentInstrumentType,:cardType,:paymentBillingPostalCode,:paymentBillingState,:paymentBillingCountryCode,:shippingPostalCode,:shippingState,:shippingCountry,:cvvVerifyResult,:digitalItemCount,:physicalItemCount,:transactionDateTime)")
 				.dataSource(dataSource).build();
 	}
-
+	/**
+	 * Writer to save RISK transactions
+	 * @param dataSource
+	 * @return
+	 */
 	@Bean("wirteRiskTransaction")
 	public JdbcBatchItemWriter<Transaction> writerRiskTransaction(DataSource dataSource) {
 		return new JdbcBatchItemWriterBuilder<Transaction>()
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-				.sql("INSERT INTO TRANSACTION_RISK (ID, AMOUNT) VALUES (:id,:amount)").dataSource(dataSource).build();
+				.sql("INSERT INTO TRANSACTION_RISK (ID, AMOUNT, IP) VALUES (:id,:amount,:ipAddress)").dataSource(dataSource).build();
 	}
-
+	/**
+	 * Writer bean for bulk accounts to database
+	 * @param dataSource
+	 * @return
+	 */
 	@Bean
 	public JdbcBatchItemWriter<Account> writer(DataSource dataSource) {
 		return new JdbcBatchItemWriterBuilder<Account>()
@@ -122,31 +153,58 @@ public class BatchConfiguration {
 				.sql("INSERT INTO ACCOUNT (ID, ZIP_CODE, STATE, COUNTRY, ACCOUNT_AGE, USER_REGISTERED,PAYMENT_INSTRUMENT_AGE) VALUES (:id, :zipCode, :state,:country,:accountAge,:registered,:paymentInstrumentAgeInAccount)")
 				.dataSource(dataSource).build();
 	}
-
+	/**
+	 * Job Definition for initial data bulk
+	 * @param step1 step for account bulk
+	 * @param step2 step for transaction bulk
+	 * @return
+	 */
 	@Bean("initialSeedJob")
 	public Job initialSeedJob(JobListenerPML listener, @Qualifier("step1") Step step1, @Qualifier("step2") Step step2) {
-		return jobBuilderFactory.get("initialSeedJob").incrementer(new RunIdIncrementer()).listener(listener)
-				.flow(step1).next(step2).end().build();
+		return jobBuilderFactory.get("initialSeedJob").incrementer(new RunIdIncrementer()).flow(step1).next(step2).end()
+				.build();
 	}
-
+	/**
+	 * Job for analize the transactions
+	 * @param listener to catch the end and send resume to whatsapp
+	 * @param stepAnalyze step for transactions analysis
+	 * @return
+	 */
 	@Bean("analyzeTransactionsJob")
 	public Job processTransactionJob(JobListenerPML listener, @Qualifier("analyzeTransactionsStep") Step stepAnalyze) {
-		return jobBuilderFactory.get("analyzeJob").incrementer(new RunIdIncrementer()).listener(listener)
+		return jobBuilderFactory.get("analyzeTransactionsJob").incrementer(new RunIdIncrementer()).listener(listener)
 				.flow(stepAnalyze).end().build();
 	}
-
+	/**
+	 * Step for bulk accounts
+	 * @param writer
+	 * @param reader
+	 * @return
+	 */
 	@Bean("step1")
 	public Step step1(JdbcBatchItemWriter<Account> writer, FlatFileItemReader<Account> reader) {
 		return stepBuilderFactory.get("step1").<Account, Account>chunk(1000).reader(reader).writer(writer).build();
 	}
-
+	/**
+	 * Step for bulk transactions
+	 * @param writer
+	 * @param reader
+	 * @return
+	 */
 	@Bean("step2")
 	public Step step2(@Qualifier("writeTransaction") JdbcBatchItemWriter<Transaction> writer,
 			@Qualifier("fileTransactionReader") FlatFileItemReader<Transaction> reader) {
 		return stepBuilderFactory.get("step2").<Transaction, Transaction>chunk(1000).reader(reader).writer(writer)
 				.build();
 	}
-
+	/**
+	 * Step for analyze transactions
+	 * @param writer
+	 * @param reader
+	 * @param te
+	 * @param transactionProcessor
+	 * @return
+	 */
 	@Bean("analyzeTransactionsStep")
 	public Step analyzeTransactionsStep(@Qualifier("wirteRiskTransaction") JdbcBatchItemWriter<Transaction> writer,
 			@Qualifier("transacitionJPAReader") JpaPagingItemReader<Transaction> reader,
@@ -154,7 +212,10 @@ public class BatchConfiguration {
 		return stepBuilderFactory.get("analyzeTransactionsStep").<Transaction, Transaction>chunk(1000).reader(reader)
 				.processor(transactionProcessor).writer(writer).taskExecutor(te).throttleLimit(20).build();
 	}
-
+	/**
+	 * Executer for multi-threading step execution
+	 * @return
+	 */
 	@Bean("analizeTaskExecutor")
 	public TaskExecutor taskExecutor() {
 		SimpleAsyncTaskExecutor ste = new SimpleAsyncTaskExecutor();

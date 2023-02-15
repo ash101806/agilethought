@@ -1,13 +1,15 @@
 package com.agilethought.schedulerpml.dao;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * Entity Class for TRANSACTION Table
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 @Entity
 @Table(name = "TRANSACTION")
 public class Transaction {
@@ -26,7 +28,7 @@ public class Transaction {
 	private Character scenario;
 	@Column(name = "TYPE")
 	private Character type;
-	@Column(name = "IP_ADDRESS")
+	@Column(name = "IP_ADDRESS", length = 12)
 	private String ipAddress;
 	@Column(name = "IP_STATE", length = 40)
 	private String ipState;

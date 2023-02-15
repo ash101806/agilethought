@@ -5,12 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import com.agilethought.schedulerpml.dao.Transaction;
-
+/**
+ * Class for transaction procesor, mainly to detect risk operations
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ *
+ */
 public class TransactionItemProcessor implements ItemProcessor<Transaction, Transaction> {
 	@Value("${agilethought.pld.params.max-amount}")
 	private BigDecimal maxAmount;

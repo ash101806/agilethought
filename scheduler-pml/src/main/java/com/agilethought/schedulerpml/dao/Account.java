@@ -1,12 +1,13 @@
 package com.agilethought.schedulerpml.dao;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * Entity Class for ACCOUNT Table
+ * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
+ */
 @Entity
 @Table(name = "ACCOUNT")
 public class Account {

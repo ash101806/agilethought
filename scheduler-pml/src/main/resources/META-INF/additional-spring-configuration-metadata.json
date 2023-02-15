@@ -1,5 +1,37 @@
-{"properties": [{
-  "name": "agilethought.pld.params.max-amount",
-  "type": "java.lang.String",
-  "description": "Limit amount to not be cheked as ML"
-}]}
+{"properties": [
+  {
+    "name": "agilethought.pld.params.max-amount",
+    "type": "java.lang.String",
+    "description": "Limit amount to not be cheked as ML"
+  },
+  {
+    "name": "agilethought.whatsapp.token",
+    "type": "java.lang.String",
+    "description": "Access token for API"
+  },
+  {
+    "name": "agilethought.whatsapp.to-number",
+    "type": "java.lang.String",
+    "description": "Number that we want to notify"
+  },
+  {
+    "name": "agilethought.whatsapp.template.enabled",
+    "type": "java.lang.String",
+    "description": "Inline whatsapp or template"
+  },
+  {
+    "name": "agilethought.meta-api.base",
+    "type": "java.lang.String",
+    "description": "URL of meta API"
+  },
+  {
+    "name": "agilethought.whatsapp.path",
+    "type": "java.lang.String",
+    "description": "path of whatsApp service"
+  },
+  {
+    "name": "agilethought.whatsapp.number",
+    "type": "java.lang.String",
+    "description": "from phone number to notification"
+  }
+]}
