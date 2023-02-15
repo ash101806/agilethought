@@ -95,7 +95,7 @@ public class BatchConfiguration {
 	@Bean("transacitionJPAReader")
 	public JpaPagingItemReader<Transaction> readerJpaTransactions() {
 		return new JpaPagingItemReaderBuilder<Transaction>().name("transactionJPAReader").entityManagerFactory(emf)
-				.queryString("from Transaction").pageSize(1000).maxItemCount(2000).build();
+				.queryString("from Transaction").pageSize(1000).build();
 	}
 	/**
 	 * CSV reader for bulk all transactions into a DB
