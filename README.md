@@ -4,7 +4,7 @@
 MS for bank account managing
 
 ## REST API
-1. Could be found in controllers folder  
+1. Could be found in controllers folder
 ## Usage of Lambdas and Streams
 1. Class AccountServiceImpl method findAccount use diferent approaches of streams and lamdas with diferent collectors and functional interfaces  
 ## Usage of Regex
@@ -17,7 +17,7 @@ MS for bank account managing
 1. A @RestControllerAdvice has been implemented in GlobalExceptionHandler class
 2. Messages are setting up on message.properties
 3. Unchecked exceptions like ConstraintViolationException (a subclass of Runtime Exception) as been catched in the Exception Handler
-4. Checked exceptions also are catched in this Exception Handler, also I've created BusinessException Class as "Friendly Exception" for a more suitable management of Business Rules and their respect HTTP Status
+4. Checked exceptions also are catched in this Exception Handler, also I've created BusinessException Class as "Friendly Exception" for a more suitable management of Business Rules and their respectly HTTP Status
 ## JPA and repositories
 1. Implementation of entities by JPA and Apache Derby
 2. JPQL implementation could be found in AccountingApiApplicationTests clas throught EntityManager
