@@ -23,8 +23,9 @@ public class SchedulerPmlApplication {
 		SpringApplication.run(SchedulerPmlApplication.class, args);
 	}
 	/**
-	 * Method to create Bean 
-	 * @return
+	 * Method to create Bean of {@link WebClient} to consume Meta API
+	 * in order to send WhatsApp notification
+	 * @return the Bean
 	 */
 	@Bean
 	public WebClient webClient() {

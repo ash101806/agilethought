@@ -59,7 +59,9 @@ public class JobListenerPML extends JobExecutionListenerSupport {
 	public void beforeJob(JobExecution exec) {
 		em.createNativeQuery("DELETE FROM TRANSACTION_RISK").executeUpdate();
 	}
-
+	/**
+	 * After job executions, if it's completed succesdully send WhatsApp notification
+	 */
 	@Override
 	public void afterJob(JobExecution jobExecution) {
 		if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
@@ -97,7 +99,7 @@ public class JobListenerPML extends JobExecutionListenerSupport {
 				request.setProduct("whatsapp");
 				request.setTo(toNumber);
 				request.setType("template");
-
+				//While template is approved by facebook send message directly
 				String requestDirect = MessageFormat.format(
 						"'{' \"messaging_product\": \"whatsapp\", \"recipient_type\": \"individual\", \"to\": \"{0}\", \"type\": \"text\", \"text\": '{' \"preview_url\": false,  \"body\": \"The analysis of {1} transactions has been completed. ✅ *{2}* Suspicious transactions *{3}* Suspicious Address *${4}* Total amount of risk transactions\" '}' '}'",
 						toNumber, totalTransactions.toString(), totalRiskTransactions.toString(),
@@ -112,7 +114,6 @@ public class JobListenerPML extends JobExecutionListenerSupport {
 			} catch (Exception e) {
 				LOG.error("Can't send whatsapp ", e);
 			}
-
 		}
 	}
 }

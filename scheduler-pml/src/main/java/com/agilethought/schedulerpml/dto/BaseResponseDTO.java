@@ -1,7 +1,7 @@
 package com.agilethought.schedulerpml.dto;
 
 /**
- * DTO for simple message reponses
+ * DTO for simple message reponse
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  *
  */
