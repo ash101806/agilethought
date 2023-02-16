@@ -14,8 +14,10 @@ MS for bank account managing
 1. You can find the implementation on each VO class inside request package (example AddProductRequestVO class)
 2. Also a direct argument validation could be found at AccountsController
 ## Exception handlers
-1. A Rest Controller Advice has been implemented in GlobalExceptionHandler class
+1. A @RestControllerAdvice has been implemented in GlobalExceptionHandler class
 2. Messages are setting up on message.properties
+3. Unchecked exceptions like ConstraintViolationException (a subclass of Runtime Exception) as been catched in the Exception Handler
+4. Checked exceptions also are catched in this Exception Handler, also I've created BusinessException Class as "Friendly Exception" for a more suitable management of Business Rules and their respect HTTP Status
 ## JPA and repositories
 1. Implementation of entities by JPA and Apache Derby
 2. JPQL implementation could be found in AccountingApiApplicationTests clas throught EntityManager
@@ -43,7 +45,7 @@ Could be found in BatchConfiguration class, there are 2 JOB definition
 ## Readers
 2 types of readers has been used, JPAPagedReader and FlatFile (Csv) Reader, you can see at BatchConfiguration class 
 ## Multi-threading
-In order to get the best perfoance an Task executor of 20 threads has been configured for analyze trasactions (Steps with 1000 rows readers limit)
+In order to get the best perfoance an Task executor of 20 threads has been configured for analyze trasactions (Steps with 1000 rows readers limit). I used a bean of SimpleAsyncTaskExecutor and configure the prefix for threads name "transactionAnalyze-"
 ## JOBS Listener
 Created in class JobListenerPML in order to inform a resume by WhatsApp.
 # Pentaho ETL
