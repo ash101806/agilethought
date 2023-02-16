@@ -7,20 +7,19 @@ import com.agilethought.schedulerpml.dto.RiskOperationsIPDTO;
 /**
  * Interface for definition of business layer to query analysis results
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
- *
  */
 public interface OperationsResultsApp {
 	/**
 	 * Method to get information of risk operation gruped by IP Address
 	 * @return List of operations with Risk
-	 * @throws Exception query exceptions only
+	 * @throws Exception SQL and hibernate exceptions only
 	 */
 	public List<RiskOperationsIPDTO> getRiskOperationByIp() throws Exception;
 	/**
-	 * Method to get all transaction of specfic country
+	 * Method to get all transactions of specfic country
 	 * @param countryCode ISO COUNTRY CODE
 	 * @return List of operations of country
-	 * @throws Exception query exceptions only
+	 * @throws Exception SQL and hibernate exceptions
 	 */
 	public List<Transaction> getTransactionsByCountry(String countryCode) throws Exception;
 }

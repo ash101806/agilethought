@@ -10,6 +10,11 @@ import org.springframework.data.repository.CrudRepository;
  *
  */
 public interface TransactionrepositoryDAO extends CrudRepository<Transaction, String> {
+	/**
+	 * Query to get all transactions by country ode
+	 * @param countryCode ISO country code
+	 * @return {@link List} of {@link Transaction}
+	 */
 	@Query(value = "from Transaction t where upper(t.ipCountry) = :countryCode ")
 	public List<Transaction> getTransactionCountry(String countryCode);
 }

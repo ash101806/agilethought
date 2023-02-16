@@ -51,8 +51,8 @@ public class BatchConfiguration {
 	@Autowired
 	JobRepository jobrepository;
 	/**
-	 * Bean for asyn execution of JOBS
-	 * @return JobLaunches async
+	 * Bean for async execution of JOBS, returns a JOB Launcher
+	 * @return instance of {@link JobLauncher} async setted a SimpleAsyncTaskExecutor
 	 * @throws Exception
 	 */
 	@Bean(name = "myJobLauncher")
@@ -64,7 +64,7 @@ public class BatchConfiguration {
 		return jobLauncher;
 	}
 	/**
-	 * Bean of reader csv for accounts
+	 * Bean {@link FlatFileItemReader} for read csv for accounts
 	 * @return
 	 */
 	@Bean("accountReader")
@@ -81,16 +81,17 @@ public class BatchConfiguration {
 				}).build();
 	}
 	/**
-	 * Bean of Transaction processor for PML
-	 * @return
+	 * Bean of Transaction processor for PML, this instance will be used to detect
+	 * suspicious transactions
+	 * @return {@link TransactionItemProcessor} instance
 	 */
 	@Bean
 	public TransactionItemProcessor procesorTran() {
 		return new TransactionItemProcessor();
 	}
 	/**
-	 * Paged JPA reader for processing transactions
-	 * @return
+	 * Paged JPA reader for processing transactions, it's limited to 1000 page size
+	 * @return {@link JpaPagingItemReader} instance
 	 */
 	@Bean("transacitionJPAReader")
 	public JpaPagingItemReader<Transaction> readerJpaTransactions() {
@@ -98,8 +99,8 @@ public class BatchConfiguration {
 				.queryString("from Transaction").pageSize(1000).build();
 	}
 	/**
-	 * CSV reader for bulk all transactions into a DB
-	 * @return
+	 * Bean {@link FlatFileItemReader} for read csv for Transactions
+	 * @return {@link FlatFileItemReader} instance
 	 */
 	@Bean("fileTransactionReader")
 	public FlatFileItemReader<Transaction> FileReaderTransaction() {
@@ -118,9 +119,9 @@ public class BatchConfiguration {
 				}).build();
 	}
 	/**
-	 * Writer Bean for bulk transactions to DB
-	 * @param dataSource
-	 * @return
+	 * Bean of writer for bulk transactions to DB
+	 * @param dataSource of dataBase to batch insertions
+	 * @return {@link JdbcBatchItemWriter} instance
 	 */
 	@Bean("writeTransaction")
 	public JdbcBatchItemWriter<Transaction> writerTransaction(DataSource dataSource) {
@@ -131,9 +132,9 @@ public class BatchConfiguration {
 				.dataSource(dataSource).build();
 	}
 	/**
-	 * Writer to save RISK transactions
-	 * @param dataSource
-	 * @return
+	 * Bean of writer to save RISK transactions
+	 * @param dataSource of dataBase to batch insertions
+	 * @return {@link JdbcBatchItemWriter} instance
 	 */
 	@Bean("wirteRiskTransaction")
 	public JdbcBatchItemWriter<Transaction> writerRiskTransaction(DataSource dataSource) {
@@ -142,9 +143,9 @@ public class BatchConfiguration {
 				.sql("INSERT INTO TRANSACTION_RISK (ID, AMOUNT, IP) VALUES (:id,:amount,:ipAddress)").dataSource(dataSource).build();
 	}
 	/**
-	 * Writer bean for bulk accounts to database
-	 * @param dataSource
-	 * @return
+	 * Bean of writer for bulk accounts to database
+	 * @param dataSource of dataBase to batch insertions
+	 * @return {@link JdbcBatchItemWriter} instance
 	 */
 	@Bean
 	public JdbcBatchItemWriter<Account> writer(DataSource dataSource) {
@@ -157,7 +158,7 @@ public class BatchConfiguration {
 	 * Job Definition for initial data bulk
 	 * @param step1 step for account bulk
 	 * @param step2 step for transaction bulk
-	 * @return
+	 * @return {@link Job} instance with "initialSeedJob" qualifier
 	 */
 	@Bean("initialSeedJob")
 	public Job initialSeedJob(JobListenerPML listener, @Qualifier("step1") Step step1, @Qualifier("step2") Step step2) {
@@ -165,10 +166,10 @@ public class BatchConfiguration {
 				.build();
 	}
 	/**
-	 * Job for analize the transactions
+	 * Job for transactions analysis
 	 * @param listener to catch the end and send resume to whatsapp
 	 * @param stepAnalyze step for transactions analysis
-	 * @return
+	 * @return {@link Job} instance with "analyzeTransactionsJob" qualifier
 	 */
 	@Bean("analyzeTransactionsJob")
 	public Job processTransactionJob(JobListenerPML listener, @Qualifier("analyzeTransactionsStep") Step stepAnalyze) {
@@ -177,9 +178,9 @@ public class BatchConfiguration {
 	}
 	/**
 	 * Step for bulk accounts
-	 * @param writer
-	 * @param reader
-	 * @return
+	 * @param writer {@link JdbcBatchItemWriter} for {@link Account} type
+	 * @param reader {@link FlatFileItemReader} for {@link Account} type
+	 * @return {@link Step} instance with "step1" qualifier
 	 */
 	@Bean("step1")
 	public Step step1(JdbcBatchItemWriter<Account> writer, FlatFileItemReader<Account> reader) {
@@ -187,9 +188,9 @@ public class BatchConfiguration {
 	}
 	/**
 	 * Step for bulk transactions
-	 * @param writer
-	 * @param reader
-	 * @return
+	 * @param writer {@link JdbcBatchItemWriter} for {@link Transacion} type
+	 * @param reader {@link FlatFileItemReader} for {@link Transacion} type
+	 * @return {@link Step} instance with "step1" qualifier
 	 */
 	@Bean("step2")
 	public Step step2(@Qualifier("writeTransaction") JdbcBatchItemWriter<Transaction> writer,
@@ -198,12 +199,11 @@ public class BatchConfiguration {
 				.build();
 	}
 	/**
-	 * Step for analyze transactions
-	 * @param writer
-	 * @param reader
-	 * @param te
-	 * @param transactionProcessor
-	 * @return
+	 * Step for transaction analysis
+	 * @param writer {@link JdbcBatchItemWriter} for {@link Transacion} type
+	 * @param reader {@link JpaPagingItemReader} for {@link Transacion} type
+	 * @param transactionProcessor {@link TransactionItemProcessor} argument
+	 * @return {@link Step} instance with "analyzeTransactionsStep" qualifier
 	 */
 	@Bean("analyzeTransactionsStep")
 	public Step analyzeTransactionsStep(@Qualifier("wirteRiskTransaction") JdbcBatchItemWriter<Transaction> writer,
@@ -214,7 +214,7 @@ public class BatchConfiguration {
 	}
 	/**
 	 * Executer for multi-threading step execution
-	 * @return
+	 * @return {@link TaskExecutor} instance
 	 */
 	@Bean("analizeTaskExecutor")
 	public TaskExecutor taskExecutor() {

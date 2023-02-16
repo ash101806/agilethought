@@ -45,8 +45,8 @@ public class BatchProcessController {
 	private OperationsResultsApp comunApp;
 /**
  * Endpoint to start JOB of analysis of transactions to generate risk data
- * @return
- * @throws Exception
+ * @return {@link ResponseEntity} of type {@link BaseResponseDTO} instance
+ * @throws Exception when the JOB cannot starts
  */
 	@PostMapping("/batch/analyze")
 	public ResponseEntity<BaseResponseDTO> startProcess() throws Exception {
@@ -68,8 +68,8 @@ public class BatchProcessController {
 	}
 	/**
 	 * Endpoint to get data of risk transaction gruped by ip address
-	 * @return
-	 * @throws Exception
+	 * @return {@link ResponseEntity} of type @{link List} of {@link RiskOperationsIPDTO} instance
+	 * @throws Exception  when query can't execute
 	 */
 	@GetMapping("/transactions/risk-results-ip")
 	public ResponseEntity<List<RiskOperationsIPDTO>> risk() throws Exception {
@@ -78,9 +78,9 @@ public class BatchProcessController {
 	}
 	/**
 	 * Endpoint to get all transactions by countryCode in order to report it in other Applications
-	 * @param coutryCode
-	 * @return
-	 * @throws Exception
+	 * @param String coutryCode belongs to ISO Country Standard
+	 * @return {@link ResponseEntity} of type @{link List} of {@link Transaction} instance
+	 * @throws Exception when query can't execute
 	 */
 	@GetMapping("/transactions/{countryCode}")
 	public ResponseEntity<List<Transaction>> transactionCountryCode(@PathVariable("countryCode") String coutryCode) throws Exception {

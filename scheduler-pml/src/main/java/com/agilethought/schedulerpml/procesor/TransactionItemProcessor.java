@@ -17,6 +17,10 @@ public class TransactionItemProcessor implements ItemProcessor<Transaction, Tran
 	@Value("${agilethought.pld.params.max-amount}")
 	private BigDecimal maxAmount;
 	private List<String> blackCountries = Arrays.asList("KR","AF", "CY");
+	/**
+	 * Method that evaluates a transaction lloking for suspicious data, here is tha rules about
+	 * limit and black listed countries
+	 */
 	@Override
 	public Transaction process(Transaction transaction) throws Exception {
 		if(transaction.getAmount().compareTo(maxAmount) == 1 || blackCountries.contains(transaction.getIpCountry().toUpperCase()))
