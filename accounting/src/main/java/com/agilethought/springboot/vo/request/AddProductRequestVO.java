@@ -18,12 +18,12 @@ public class AddProductRequestVO {
 	private String productTypeCode;
 	@DecimalMin(value = "0.0")
 	private BigDecimal initialBalance;
-	private Long clientId;
+	private String clientId;
 	
-	public Long getClientId() {
+	public String getClientId() {
 		return clientId;
 	}
-	public void setClientId(Long clientId) {
+	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
 	public String getAccountNumber() {

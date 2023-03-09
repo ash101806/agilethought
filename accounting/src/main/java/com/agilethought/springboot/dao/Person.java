@@ -3,35 +3,39 @@ package com.agilethought.springboot.dao;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 /**
  * Entity class to manage PERSON table
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  *
  */
 @Entity
-@Table(name = "PERSON")
+@Table(name = "Person")
 public class Person {
 	@Id
-	@Column(name = "ID" )
-	@GeneratedValue(generator = "seq_person", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "seq_person", sequenceName = "SEQ_PERSON", allocationSize = 1)
-	private Long personId;
-	@Column(name = "NAME" )
+	@Column(name = "Id",columnDefinition="uniqueidentifier" )
+	@GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+	private String personId;
+	@Column(name = "Name" )
 	private String name;
-	@Column(name = "ADDRESS" )
+	@Column(name = "Address" )
 	private String address;
-	@Column(name = "IDENTIFICATION_NUMBER" )
+	@Column(name = "IdentificationNumber" )
 	private String identificationNumber;
-	@Column(name = "ONBORADING_COMPLETE")
+	@Column(name = "OnboradingComplete")
 	private Boolean onBoardingComplete;
-	public Long getPersonId() {
+	
+	public String getPersonId() {
 		return personId;
 	}
-	public void setPersonId(Long personId) {
+	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
 	public String getName() {

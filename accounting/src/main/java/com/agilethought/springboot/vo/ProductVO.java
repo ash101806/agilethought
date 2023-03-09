@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  */
 public class ProductVO {
-	private Long id;
+	private String id;
 	private String type;
 	private String currency;
 	private BigDecimal balance;
@@ -17,10 +17,10 @@ public class ProductVO {
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getType() {

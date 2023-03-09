@@ -58,7 +58,7 @@ public class ProductTypesController {
 	 * @throws BusinessException when can't find an product type with the specified ID
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<ProductTypeVO> getAllAccountTypes(@PathVariable Long id) throws BusinessException{
+	public ResponseEntity<ProductTypeVO> getAllAccountTypes(@PathVariable String id) throws BusinessException{
 		return new ResponseEntity<>(accountTypeService.getAccountType(id), HttpStatus.OK);
 	}
 	/**
@@ -71,7 +71,7 @@ public class ProductTypesController {
 	@PutMapping("/{id}")
 	public ResponseEntity<UpdateProductTypeResponseVO> updateProductType(
 			@Valid @RequestBody UpdateProductTypeRequestVO request,
-			@PathVariable(value = "id", required = true) Long id) throws BusinessException {
+			@PathVariable(value = "id", required = true) String id) throws BusinessException {
 		return new ResponseEntity<>(accountTypeService.updateProductType(request, id), HttpStatus.OK);
 
 	}
@@ -81,7 +81,7 @@ public class ProductTypesController {
 	 * @return confirmation data of deleted product type
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<DeleteProductTypeResponseVO> deleteProductType(@PathVariable Long id){
+	public ResponseEntity<DeleteProductTypeResponseVO> deleteProductType(@PathVariable String id){
 		return new ResponseEntity<>(accountTypeService.deleteProductType(id), HttpStatus.OK);
 	}
 }

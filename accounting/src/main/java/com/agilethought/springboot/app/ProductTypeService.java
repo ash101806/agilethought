@@ -35,18 +35,18 @@ public interface ProductTypeService {
 	 * @return confirmation of updated product type, see {@link UpdateProductTypeResponseVO} for more
 	 * @throws BusinessException when can't find an product type with the specified ID
 	 */
-	public UpdateProductTypeResponseVO updateProductType(UpdateProductTypeRequestVO request, Long id) throws BusinessException;
+	public UpdateProductTypeResponseVO updateProductType(UpdateProductTypeRequestVO request, String id) throws BusinessException;
 	/**
 	 * Method to delete a product type
 	 * @param id Identifier of product type
 	 * @return confirmation data of deleted product type
 	 */
-	public DeleteProductTypeResponseVO deleteProductType(Long id);
+	public DeleteProductTypeResponseVO deleteProductType(String id);
 	/**
 	 * 
 	 * @param id
 	 * @return The information of product type, see {@link ProductTypeVO} for more
 	 * @throws BusinessException when can't find an product type with the specified ID
 	 */
-	public ProductTypeVO getAccountType(Long id) throws BusinessException;
+	public ProductTypeVO getAccountType(String id) throws BusinessException;
 }

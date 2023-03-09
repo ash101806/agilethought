@@ -11,16 +11,16 @@ import javax.validation.constraints.NotNull;
  */
 public class AddAccountRequestVO {
 	@NotNull(message = "{validations.accounts.clientid.not-null}")
-	private Long clientId;
+	private String clientId;
 	@NotEmpty(message = "{validations.accounts.accountTypeCode.not-null}")
 	private String accountTypeCode;
 	@NotNull(message = "{validations.accounts.accountTypeCode.not-null}")
 	@DecimalMin(value = "0.00")
 	private BigDecimal initialBalance;
-	public Long getClientId() {
+	public String getClientId() {
 		return clientId;
 	}
-	public void setClientId(Long clientId) {
+	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
 	public String getAccountTypeCode() {

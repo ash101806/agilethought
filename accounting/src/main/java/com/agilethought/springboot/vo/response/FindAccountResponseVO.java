@@ -9,10 +9,10 @@ import com.agilethought.springboot.vo.ProductVO;
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  */
 public class FindAccountResponseVO {
-	private Long id;
+	private String id;
 	private String accountNumber;
 	private String mainProductType;
-	private Long mainProductId;
+	private String mainProductId;
 	private List<ProductVO> products;
 	private List<ProductVO> internationalProducts;
 	private ClientInformationDTO client;
@@ -29,10 +29,10 @@ public class FindAccountResponseVO {
 	public void setClient(ClientInformationDTO client) {
 		this.client = client;
 	}
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getAccountNumber() {
@@ -47,10 +47,10 @@ public class FindAccountResponseVO {
 	public void setMainProductType(String mainProductType) {
 		this.mainProductType = mainProductType;
 	}
-	public Long getMainProductId() {
+	public String getMainProductId() {
 		return mainProductId;
 	}
-	public void setMainProductId(Long mainProductId) {
+	public void setMainProductId(String mainProductId) {
 		this.mainProductId = mainProductId;
 	}
 	public List<ProductVO> getProducts() {

@@ -7,40 +7,43 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 /**
  * Entity class to manage PRODUCT table
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  *
  */
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "Product")
 public class Product {
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(generator = "seq_product", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "seq_product", sequenceName = "SEQ_PRODUCT", allocationSize = 1)
-	private Long id;
-	@Column(name = "PROCUCT_TYPE_ID")
-	private Long productTypeId;
-	@Column(name = "ACCOUNT_ID")
-	private Long accountId;
-	@Column(name = "BALANCE")
+	@Column(name = "Id",columnDefinition="uniqueidentifier")
+	@GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+	private String id;
+	@Column(name = "ProductTypeId",columnDefinition="uniqueidentifier")
+	private String productTypeId;
+	@Column(name = "AccountId",columnDefinition="uniqueidentifier")
+	private String accountId;
+	@Column(name = "Balance")
 	private BigDecimal balance;
-	@Column(name = "STATUS")
+	@Column(name = "Status")
 	private Character status;
-	@Column(name = "ACTIVATION_DATE")
+	@Column(name = "ActivationDate")
 	private LocalDateTime activationDate;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ACCOUNT_ID", updatable = false, insertable = false)
+	@JoinColumn(name = "AccountId", updatable = false, insertable = false)
 	private Account account;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PROCUCT_TYPE_ID", updatable = false, insertable = false)
+	@JoinColumn(name = "ProductTypeId", updatable = false, insertable = false)
 	private ProductType productType;
 	
 
@@ -50,17 +53,16 @@ public class Product {
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
 	}
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-
-	public Long getProductTypeId() {
+	public String getProductTypeId() {
 		return productTypeId;
 	}
-	public void setProductTypeId(Long productTypeId) {
+	public void setProductTypeId(String productTypeId) {
 		this.productTypeId = productTypeId;
 	}
 	public Character getStatus() {
@@ -75,10 +77,10 @@ public class Product {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
-	public Long getAccountId() {
+	public String getAccountId() {
 		return accountId;
 	}
-	public void setAccountId(Long accountId) {
+	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
 	public BigDecimal getBalance() {

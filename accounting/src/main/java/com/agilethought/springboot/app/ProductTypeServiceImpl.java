@@ -54,7 +54,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public UpdateProductTypeResponseVO updateProductType(UpdateProductTypeRequestVO request, Long id) throws BusinessException {
+	public UpdateProductTypeResponseVO updateProductType(UpdateProductTypeRequestVO request,String id) throws BusinessException {
 		ProductType productType = productTypeRepo.findById(id).orElseThrow(
 				() -> new BusinessException(HttpStatus.BAD_REQUEST, "Can't find product with the provided id"));
 		BeanUtils.copyProperties(request, productType);
@@ -68,7 +68,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DeleteProductTypeResponseVO deleteProductType(Long id) {
+	public DeleteProductTypeResponseVO deleteProductType(String id) {
 		productTypeRepo.deleteById(id);
 		DeleteProductTypeResponseVO response = new DeleteProductTypeResponseVO();
 		response.setId(id);
@@ -78,7 +78,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ProductTypeVO getAccountType(Long id) throws BusinessException{
+	public ProductTypeVO getAccountType(String id) throws BusinessException{
 		ProductType productType = productTypeRepo.findById(id).orElseThrow(
 				() -> new BusinessException(HttpStatus.BAD_REQUEST, "Can't find Product with the provided id"));
 		ProductTypeVO response = new ProductTypeVO();

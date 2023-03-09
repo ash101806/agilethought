@@ -6,47 +6,51 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 /**
  * Entity class to manage ACCOUNT table
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  *
  */
 @Entity
-@Table(name = "ACCOUNT")
+@Table(name = "Account")
 public class Account {
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(generator = "seq_account", strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "seq_account", sequenceName = "SEQ_ACCOUNT", allocationSize = 1)
-	private Long id;
-	@Column(name = "ACCOUNT_NUMBER")
+	@Column(name = "Id",columnDefinition="uniqueidentifier")
+	@GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+	private String id;
+	@Column(name = "AccountNumber", length = 11)
 	private String accountNumber;
-	@Column(name = "CONTRACT_NUMBER")
+	@Column(name = "CotractNumber", length = 18)
 	private String contract;
-	@Column(name = "PERSON_ID")
-	private Long personId;
-	@Column(name = "MAIN_PRODUCT_ID")
-	private Long mainProductId;
+	@Column(name = "PersonId",columnDefinition="uniqueidentifier")
+	private String personId;
+	@Column(name = "MainProductId",columnDefinition="uniqueidentifier")
+	private String mainProductId;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PERSON_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "PersonId", insertable = false, updatable = false)
 	private Person person;
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MAIN_PRODUCT_ID" , insertable = false, updatable = false)
+	@JoinColumn(name = "MainProductId" , insertable = false, updatable = false)
 	private Product mainProduct;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Product> products;
-	public Long getId() {
+
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getAccountNumber() {
@@ -61,16 +65,16 @@ public class Account {
 	public void setContract(String contract) {
 		this.contract = contract;
 	}
-	public Long getPersonId() {
+	public String getPersonId() {
 		return personId;
 	}
-	public void setPersonId(Long personId) {
+	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
-	public Long getMainProductId() {
+	public String getMainProductId() {
 		return mainProductId;
 	}
-	public void setMainProductId(Long mainProductId) {
+	public void setMainProductId(String mainProductId) {
 		this.mainProductId = mainProductId;
 	}
 	public Person getPerson() {

@@ -4,13 +4,13 @@ package com.agilethought.springboot.vo;
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  */
 public class ProductTypeVO {
-	private Long id;
+	private String id;
 	private String code;
 	private String currency;
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getCode() {

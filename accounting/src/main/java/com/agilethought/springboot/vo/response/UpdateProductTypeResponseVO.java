@@ -4,13 +4,13 @@ package com.agilethought.springboot.vo.response;
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
  */
 public class UpdateProductTypeResponseVO {
-	private Long id;
+	private String id;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
