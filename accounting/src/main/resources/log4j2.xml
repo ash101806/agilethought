@@ -12,15 +12,7 @@
     <Console name="STDOUT" target="SYSTEM_OUT">
         <PatternLayout pattern="${LOG_PATTERN}" />
     </Console>
-    <RollingFile name="MyFileAppender"
-        fileName="${APP_LOG_ROOT}/application.log"
-        filePattern="${APP_LOG_ROOT}/application-%d{yyyy-MM-dd}-%i.log">
-        <PatternLayout pattern="${LOG_PATTERN}" />
-        <Policies>
-            <SizeBasedTriggeringPolicy size="50 MB" />
-        </Policies>
-        <DefaultRolloverStrategy max="100" />
-    </RollingFile>
+    
 </Appenders>
 <Loggers>
     <Root level="INFO">
