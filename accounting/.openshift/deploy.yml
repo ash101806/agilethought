@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounting
+  labels:
+    app: accounting
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: accounting
+  template:
+    metadata:
+      labels:
+        app: accounting
+    spec:
+      containers:
+      - name: accounting
+        image: accounting:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: openshift
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounting
+  labels:
+    app: accounting
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: accounting
+  type: LoadBalancer
