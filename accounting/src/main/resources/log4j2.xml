@@ -24,8 +24,8 @@
 </Appenders>
 <Loggers>
     <Root level="INFO">
-<!--         <AppenderRef ref="STDOUT" /> -->
-        <AppenderRef ref="MyFileAppender" />
+        <AppenderRef ref="STDOUT" />
+<!--         <AppenderRef ref="MyFileAppender" /> -->
     </Root>
 </Loggers>
 </Configuration>
