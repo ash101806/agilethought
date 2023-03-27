@@ -12,6 +12,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
@@ -32,6 +33,7 @@ import com.agilethought.schedulerpml.dao.Account;
 import com.agilethought.schedulerpml.dao.Transaction;
 import com.agilethought.schedulerpml.listener.JobListenerPML;
 import com.agilethought.schedulerpml.procesor.TransactionItemProcessor;
+import com.agilethought.schedulerpml.writer.CustomItemWriterAshley;
 /**
  * Configuration class for beans (readers, writers, procesors, steps and JOBS) and desing of solution flow
  * @author Manuel Ashley Sanchez Zapien <mailto: manuel.zapien>
@@ -124,12 +126,8 @@ public class BatchConfiguration {
 	 * @return {@link JdbcBatchItemWriter} instance
 	 */
 	@Bean("writeTransaction")
-	public JdbcBatchItemWriter<Transaction> writerTransaction(DataSource dataSource) {
-		return new JdbcBatchItemWriterBuilder<Transaction>()
-				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-				.sql("INSERT INTO TRANSACTION (ID, ACCOUNT_ID, AMOUNT, CURRENCY_CODE, LOCAL_HOUR, SCENARIO,TYPE,IP_ADDRESS,IP_STATE,IP_POSTAL_CODE,IP_COUNTRY,PROXY,B_LANGUAGE,P_INTRUMENT_TYPE,CARD_TYPE,P_BILLING_ZIP,P_BILLING_STATE,P_BILLING_COUNTRY_CODE,SHIPPING_ZIP,SHIPPING_STATE,SHIPPING_COUNTRY,CVV_VERIICATION_RESULT,DIGITAL_ITEM_COUNT,PHYSICAL_ITEM_COUNT,TRANSACTION_DATETIME) "
-						+ "VALUES (:id, :accountId, :amount,:currencyCode,:localHour,:scenario,:type,:ipAddress,:ipState,:ipPostalCode,:ipCountry,:isProxy,:browserLanguage,:paymentInstrumentType,:cardType,:paymentBillingPostalCode,:paymentBillingState,:paymentBillingCountryCode,:shippingPostalCode,:shippingState,:shippingCountry,:cvvVerifyResult,:digitalItemCount,:physicalItemCount,:transactionDateTime)")
-				.dataSource(dataSource).build();
+	public ItemWriter<Transaction> writerTransaction() {
+		return new CustomItemWriterAshley();
 	}
 	/**
 	 * Bean of writer to save RISK transactions
@@ -193,9 +191,15 @@ public class BatchConfiguration {
 	 * @return {@link Step} instance with "step1" qualifier
 	 */
 	@Bean("step2")
-	public Step step2(@Qualifier("writeTransaction") JdbcBatchItemWriter<Transaction> writer,
-			@Qualifier("fileTransactionReader") FlatFileItemReader<Transaction> reader) {
-		return stepBuilderFactory.get("step2").<Transaction, Transaction>chunk(1000).reader(reader).writer(writer)
+	public Step step2(@Qualifier("writeTransaction") ItemWriter<Transaction> writer,
+			@Qualifier("fileTransactionReader") FlatFileItemReader<Transaction> reader, 
+			TransactionItemProcessor procesorTran
+			,@Qualifier("analizeTaskExecutor") TaskExecutor te) {
+		return stepBuilderFactory.get("step2").<Transaction, Transaction>chunk(10000)
+				.reader(reader)
+				.processor(procesorTran).writer(writer)
+				.taskExecutor(te)
+				.throttleLimit(10)
 				.build();
 	}
 	/**

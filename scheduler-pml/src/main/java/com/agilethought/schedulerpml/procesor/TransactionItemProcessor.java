@@ -3,6 +3,7 @@ package com.agilethought.schedulerpml.procesor;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,9 +24,9 @@ public class TransactionItemProcessor implements ItemProcessor<Transaction, Tran
 	 */
 	@Override
 	public Transaction process(Transaction transaction) throws Exception {
-		if(transaction.getAmount().compareTo(maxAmount) == 1 || blackCountries.contains(transaction.getIpCountry().toUpperCase()))
-			return transaction;
-		return null;
+	
+		Thread.sleep(1);
+		return transaction;
 	}
 
 }
